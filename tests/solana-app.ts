@@ -9,32 +9,39 @@ describe("solana-app", () => {
 
   const program = anchor.workspace.SolanaApp as Program<SolanaApp>;
   
-  it('can send a new tweet', async () => {
-    // const signature = await program.provider.connection.requestAirdrop(player.publicKey, 1000000000);
-    // await program.provider.connection.confirmTransaction(signature);
-    // const provider = anchor.AnchorProvider.env();
-    // anchor.setProvider(provider);
-    const pubKey = program.provider.wallet.publicKey;
-    console.log('pubKey: ', pubKey)
-    
-    const [playerState, _] = PublicKey.findProgramAddressSync([
-        anchor.utils.bytes.utf8.encode("player-state"),
+  const getPDA = (seed: string, pubKey: PublicKey) => {
+    const [pda, _] = PublicKey.findProgramAddressSync([
+        anchor.utils.bytes.utf8.encode(seed),
         pubKey.toBuffer()
       ],
       program.programId
-    );
-    console.log('playerState', playerState)
+    )
+    return pda
+  }
+
+  it('can send a new tweet', async () => {
+    // const signature = await program.provider.connection.requestAirdrop(player.publicKey, 1000000000);
+    // await program.provider.connection.confirmTransaction(signature);
+    const provider = anchor.AnchorProvider.env();
+    anchor.setProvider(provider);
+    const pubKey = provider.wallet.publicKey;
+    const p = getPDA("player_state", pubKey)
+    const c = getPDA("current_round", pubKey)
 
     await program.methods
-      .createPlayerStats()
+      .initialize()
       .accounts({
         player: pubKey,
-        playerState: playerState,
+        playerState: p,
+        currentRound: c,
         systemProgram: anchor.web3.SystemProgram.programId,
       })
-      .transaction()
+      .rpc()
 
-    const PlayerAccount = await program.account.playerState.fetch(playerState);
+    const PlayerAccount = await program.account.playerState.fetch(p);
   	console.log(PlayerAccount);
+
+    const Current = await program.account.currentRound.fetch(c);
+  	console.log(Current);
   });
 });

@@ -8,9 +8,11 @@ declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
 pub mod solana_app {
     use super::*;
 
-    pub fn create_player_stats(ctx: Context<CreatePlayerState>) -> Result<()> {
+    pub fn initialize(ctx: Context<Initialize>) -> Result<()> {
         let player_state = &mut ctx.accounts.player_state;
+        let current_round = &mut ctx.accounts.current_round;
         
+        current_round.id = 1;
         player_state.bet = 0;
         player_state.bump = *ctx.bumps.get("player_state").unwrap();
         Ok(())
@@ -23,16 +25,30 @@ pub struct PlayerState {
     pub bump: u8,
 }
 
+#[account]
+pub struct CurrentRound {
+    pub id: u16,
+    pub bump: u8,
+}
+
 #[derive(Accounts)]
-pub struct CreatePlayerState<'info> {
+pub struct Initialize<'info> {
     #[account(
-        init, 
+        init,
         payer = player, 
         space = PlayerState::LEN, 
         seeds = [b"player_state".as_ref(), player.key().as_ref()],
         bump,
     )]
     pub player_state: Account<'info, PlayerState>,
+    #[account(
+        init,
+        payer = player, 
+        space = CurrentRound::LEN, 
+        seeds = [b"current_round".as_ref(), player.key().as_ref()],
+        bump,
+    )]
+    pub current_round: Account<'info, CurrentRound>,
     #[account(mut)]
     pub player: Signer<'info>,
     #[account(address = system_program::ID)]
@@ -48,4 +64,11 @@ impl PlayerState {
         + 2 // bet
         + 1 // bump
         ;
-}  
+} 
+
+impl CurrentRound {
+    const LEN: usize = DISCRIMINATOR_LENGTH
+        + 2 // id
+        + 1 // bump
+        ;
+} 
