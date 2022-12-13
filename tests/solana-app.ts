@@ -2,6 +2,7 @@ import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { SolanaApp } from "../target/types/solana_app";
 import { PublicKey } from '@solana/web3.js';
+import { expect } from "chai";
 
 describe("solana-app", () => {
   // Configure the client to use the local cluster.
@@ -18,7 +19,7 @@ describe("solana-app", () => {
     return pda
   }
 
-  it('can send a new tweet', async () => {
+  it('can init accounts', async () => {
     // const signature = await program.provider.connection.requestAirdrop(player.publicKey, 1000000000);
     // await program.provider.connection.confirmTransaction(signature);
     const provider = anchor.AnchorProvider.env();
@@ -37,10 +38,9 @@ describe("solana-app", () => {
       })
       .rpc()
 
-    const PlayerAccount = await program.account.playerState.fetch(p);
-  	console.log(PlayerAccount);
-
-    const Current = await program.account.currentRound.fetch(c);
-  	console.log(Current);
+    const playerAccount = await program.account.playerState.fetch(p);
+    expect(playerAccount.bet).equal(0)
+    const current = await program.account.currentRound.fetch(c);
+    expect(current.id).equal(2)
   });
 });
