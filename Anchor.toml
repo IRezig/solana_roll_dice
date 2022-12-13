@@ -1,14 +1,18 @@
 [features]
 seeds = false
 skip-lint = false
+
 [programs.localnet]
+solana_app = "AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK"
+
+[programs.devnet]
 solana_app = "AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "Localnet"
+cluster = "devnet"
 wallet = "/Users/rezigibtissam/.config/solana/id.json"
 
 [scripts]
