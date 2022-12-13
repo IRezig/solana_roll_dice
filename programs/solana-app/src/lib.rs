@@ -12,7 +12,7 @@ pub mod solana_app {
         let player_state = &mut ctx.accounts.player_state;
         let current_round = &mut ctx.accounts.current_round;
         
-        current_round.id = 1;
+        current_round.id = 2;
         player_state.bet = 0;
         player_state.bump = *ctx.bumps.get("player_state").unwrap();
         Ok(())
@@ -41,14 +41,16 @@ pub struct Initialize<'info> {
         bump,
     )]
     pub player_state: Account<'info, PlayerState>,
+
     #[account(
         init,
         payer = player, 
         space = CurrentRound::LEN, 
-        seeds = [b"current_round".as_ref(), player.key().as_ref()],
+        seeds = [b"current_round".as_ref()],
         bump,
     )]
     pub current_round: Account<'info, CurrentRound>,
+
     #[account(mut)]
     pub player: Signer<'info>,
     #[account(address = system_program::ID)]

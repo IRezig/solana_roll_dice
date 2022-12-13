@@ -12,8 +12,11 @@ solana_app = "AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK"
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "localnet"
 wallet = "/Users/rezigibtissam/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+set-local="solana config set --url localhost"
+set-dev="solana config set --url devnet"
+deploy-dev="anchor deploy --provider.cluster devnet"

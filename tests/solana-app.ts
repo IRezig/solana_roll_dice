@@ -9,13 +9,12 @@ describe("solana-app", () => {
 
   const program = anchor.workspace.SolanaApp as Program<SolanaApp>;
   
-  const getPDA = (seed: string, pubKey: PublicKey) => {
-    const [pda, _] = PublicKey.findProgramAddressSync([
-        anchor.utils.bytes.utf8.encode(seed),
-        pubKey.toBuffer()
-      ],
-      program.programId
-    )
+  const getPDA = (seed: string, pubKey?: PublicKey) => {
+    const seeds = [anchor.utils.bytes.utf8.encode(seed)]
+    if (pubKey) {
+      seeds.push(pubKey.toBuffer())
+    }
+    const [pda, _] = PublicKey.findProgramAddressSync(seeds, program.programId)
     return pda
   }
 
@@ -26,7 +25,7 @@ describe("solana-app", () => {
     anchor.setProvider(provider);
     const pubKey = provider.wallet.publicKey;
     const p = getPDA("player_state", pubKey)
-    const c = getPDA("current_round", pubKey)
+    const c = getPDA("current_round")
 
     await program.methods
       .initialize()
