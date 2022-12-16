@@ -48,8 +48,8 @@ pub struct InitializeAppState<'info> {
 }
 
 const DISCRIMINATOR_LENGTH: usize = 8;
-const PUBLIC_KEY_LENGTH: usize = 32;
-const TIMESTAMP_LENGTH: usize = 8;
+//const PUBLIC_KEY_LENGTH: usize = 32;
+//const TIMESTAMP_LENGTH: usize = 8;
 
 impl PlayerState {
     const LEN: usize = DISCRIMINATOR_LENGTH

@@ -1,7 +1,7 @@
-use anchor_lang::prelude::*;
 mod init;
+
+use anchor_lang::prelude::*;
 use anchor_lang::solana_program::system_program;
-use anchor_lang::solana_program::entrypoint::ProgramResult;
 pub use crate::init::*;
 
 declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
@@ -20,7 +20,6 @@ pub mod solana_app {
         Ok(())
     }
 }
-
 
 #[account]
 pub struct PlayerState {
