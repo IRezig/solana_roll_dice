@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 mod init;
 use anchor_lang::solana_program::system_program;
 use anchor_lang::solana_program::entrypoint::ProgramResult;
-pub use crate::init::initializer::*;
+pub use crate::init::*;
 
 declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
 
@@ -11,12 +11,25 @@ pub mod solana_app {
     use super::*;
 
     pub fn init_current_round(ctx: Context<InitializeAppState>) -> Result<()> {
-        init_current_round(ctx);
+        init::init_current_round(ctx);
         Ok(())
     }
 
     pub fn init_player(ctx: Context<InitializePlayer>) -> Result<()> {
-        init_player(ctx);
+        init::init_player(ctx);
         Ok(())
     }
+}
+
+
+#[account]
+pub struct PlayerState {
+    pub bet: u16,
+    pub bump: u8,
+}
+
+#[account]
+pub struct CurrentRound {
+    pub id: u16,
+    pub bump: u8,
 }
