@@ -28,7 +28,7 @@ describe("solana-app", () => {
     const c = getPDA("current_round")
 
     await program.methods
-    .initCurrentRound()
+    .initAppState()
     .accounts({
       player: pubKey,
       currentRound: c,
@@ -39,7 +39,7 @@ describe("solana-app", () => {
     let success = false
     try {
       await program.methods
-        .initCurrentRound()
+        .initAppState()
         .accounts({
           player: pubKey,
           currentRound: c,

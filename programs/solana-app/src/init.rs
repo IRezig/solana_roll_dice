@@ -7,7 +7,7 @@ pub fn init_player(ctx: Context<InitializePlayer>) {
     player_state.bump = *ctx.bumps.get("player_state").unwrap();
 }
 
-pub fn init_current_round(ctx: Context<InitializeAppState>) {
+pub fn init_app_state(ctx: Context<InitializeAppState>) {
     let current_round = &mut ctx.accounts.current_round;
     current_round.id = 2;
 }

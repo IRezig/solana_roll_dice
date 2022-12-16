@@ -10,8 +10,8 @@ declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
 pub mod solana_app {
     use super::*;
 
-    pub fn init_current_round(ctx: Context<InitializeAppState>) -> Result<()> {
-        init::init_current_round(ctx);
+    pub fn init_app_state(ctx: Context<InitializeAppState>) -> Result<()> {
+        init::init_app_state(ctx);
         Ok(())
     }
 
