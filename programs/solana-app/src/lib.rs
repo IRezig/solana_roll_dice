@@ -39,11 +39,11 @@ pub mod solana_app {
         
 		let win = logic::play(bet, current_round, last_round, player_state, stats, current_timestamp);
         if win {
-			/*let result = utils::withdraw(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
+			let result = utils::withdraw(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
 			match result {
 				Ok(()) => (),
 				Err(error) => panic!("Could not pay entry fee: {:?}", error),
-			};*/
+			};
 		}
 		Ok(())
     }
@@ -55,11 +55,11 @@ pub mod solana_app {
         let stats = &mut ctx.accounts.stats;
         let claimable: u32 = logic::claim(current_round, last_round, player_state, stats);
 		if claimable > 0 {
-			/*let result = utils::withdraw(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
+			let result = utils::withdraw(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
 			match result {
 				Ok(()) => (),
 				Err(error) => panic!("Could not pay entry fee: {:?}", error),
-			};*/
+			};
 		}
         Ok(())
     }

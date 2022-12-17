@@ -2,6 +2,7 @@ import * as anchor from '@project-serum/anchor';
 import { Program } from '@project-serum/anchor';
 import { SolanaApp } from '../target/types/solana_app';
 import { PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
+import { expect } from 'chai';
 
 export const GAME_PRICE = 0.001 * LAMPORTS_PER_SOL;
 
@@ -45,6 +46,17 @@ export const getWalletKey = () => provider.wallet.publicKey;
 export const getBalance = async (pubKey: PublicKey) =>
   provider.connection.getBalance(pubKey);
 
+export const expectValueForKey = async (
+  request: Promise<any>,
+  key: string,
+  value: any
+) => {
+  expect(await getValueForKey(request, key)).equal(value);
+};
+export const getValueForKey = async (request: Promise<any>, key: string) => {
+  const val = await request;
+  return val[key];
+};
 export const initAppState = async () => {
   const currentRound = addressForSeed(CURRENT_ROUND_SEED);
   const lastRound = addressForSeed(LAST_ROUND_SEED);
