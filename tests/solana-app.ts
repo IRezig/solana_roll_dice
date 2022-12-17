@@ -1,9 +1,11 @@
 import { expect } from "chai";
-import { getCurrentRound, getPlayerState, getWalletKey, initAppState, initPlayer, getLastRound, getStats  } from "./utils";
+import { Keypair, PublicKey } from '@solana/web3.js';
+import { getCurrentRound, getPlayerState, getWalletKey, initAppState, initPlayer, getLastRound, getStats, play,   } from "./utils";
 
 describe("solana-app", () => {
 
 	const besma = getWalletKey();
+	const ju = Keypair.generate()
 
 	it('can init app state', async () => {
 		await initAppState()
@@ -25,6 +27,15 @@ describe("solana-app", () => {
 
 		const player = await getPlayerState(besma);
 		expect(player.lastClaimedRound).equal(0)
+	});
+
+	it('can play', async () => {
+		await initAppState()
+		await initPlayer(besma)
+		await initPlayer(ju)
+
+		await play(besma)
+
 	});
 
 });

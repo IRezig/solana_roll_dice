@@ -58,6 +58,21 @@ export const initPlayer = async (pubKey: PublicKey) => {
 	}).rpc()
 }
 
+export const play = async (pubKey: PublicKey) => {
+    const currentRound = addressForSeed(CURRENT_ROUND_SEED)
+    const lastRound = addressForSeed(LAST_ROUND_SEED)
+    const stats = addressForSeed(STATS_SEED)
+    const playerState = addressForSeed(PLAYER_STATE_SEED, pubKey)
+	return await program.methods.play().accounts({
+		currentRound,
+		lastRound,
+		stats,
+		playerState,
+		player: provider.wallet.publicKey,
+		systemProgram: anchor.web3.SystemProgram.programId,
+	}).rpc()
+}
+
 export const airdrop = async (pubKey: PublicKey, amount = 1000000000) => {
 	const signature = await program.provider.connection.requestAirdrop(pubKey, amount);
 	await program.provider.connection.confirmTransaction(signature);
