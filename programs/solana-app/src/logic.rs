@@ -1,10 +1,9 @@
 
 use anchor_lang::prelude::*;
-use anchor_lang::solana_program::clock;
 use super::*;
 
 pub const GAME_PRICE: u32 = 1000000;
-pub const ROUND_DURATION: u32 = 24 * 7 * 3600 * 1000;
+pub const ROUND_DURATION: i64 = 24 * 7 * 3600 * 1000;
 
 #[derive(Accounts)]
 pub struct Play<'info> {
@@ -53,12 +52,13 @@ pub fn play(
     player_state: &mut PlayerState,
     stats: &mut Stats,
     current_timestamp: i64,
-) {
+) -> bool {
     claim(current_round, last_round, player_state, stats);
     go_next_round(current_round, last_round, stats, current_timestamp);
     reset_current_round_shares(current_round, player_state);
-    let win = get_random_number();
-    if win == bet {
+    let result = get_random_number();
+	let win = bet == result;
+    if win {
         // WIN
 		player_state.payback += GAME_PRICE;
         player_state.nb_shares += 1;
@@ -70,6 +70,7 @@ pub fn play(
         current_round.benefits += GAME_PRICE;
     }
 	// TODO: NOTIFY FRONT WITH AN EVENT
+	return win;
 }
 
 pub fn claim(

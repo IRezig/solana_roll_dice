@@ -7,7 +7,6 @@ pub use crate::logic::*;
 pub use crate::utils::*;
 
 use anchor_lang::prelude::*;
-use anchor_lang::solana_program::clock;
 use anchor_lang::solana_program::system_program;
 
 declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
@@ -29,7 +28,7 @@ pub mod solana_app {
     pub fn play(ctx: Context<Play>, bet: u8) -> Result<()> {
         let clock = Clock::get()?;
         let current_timestamp = clock.unix_timestamp;
-		let result = utils::transfer(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
+		let result = utils::pay(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
 		match result {
 			Ok(()) => (),
 			Err(error) => panic!("Could not pay entry fee: {:?}", error),
@@ -39,8 +38,16 @@ pub mod solana_app {
         let last_round = &mut ctx.accounts.last_round;
         let player_state = &mut ctx.accounts.player_state;
         let stats = &mut ctx.accounts.stats;
-        logic::play(bet, current_round, last_round, player_state, stats, current_timestamp);
-        Ok(())
+        
+		let win = logic::play(bet, current_round, last_round, player_state, stats, current_timestamp);
+        if win {
+			/*let result = utils::withdraw(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
+			match result {
+				Ok(()) => (),
+				Err(error) => panic!("Could not pay entry fee: {:?}", error),
+			};*/
+		}
+		Ok(())
     }
 
     pub fn claim(ctx: Context<Claim>) -> Result<()> {
