@@ -1,7 +1,7 @@
 import * as anchor from "@project-serum/anchor";
 import { Program } from "@project-serum/anchor";
 import { SolanaApp } from "../target/types/solana_app";
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey } from "@solana/web3.js";
 
 /**
  * Seeds
@@ -49,16 +49,23 @@ export const initAppState = async () => {
 	}).rpc()
 }
 
+
 export const initPlayer = async (pubKey: PublicKey) => {
-    const playerState = addressForSeed(PLAYER_STATE_SEED, pubKey)
-	return await program.methods.initPlayer().accounts({
-		player: provider.wallet.publicKey,
-		playerState,
-		systemProgram: anchor.web3.SystemProgram.programId,
-	}).rpc()
-}
+  const playerState = addressForSeed(PLAYER_STATE_SEED, pubKey);
+  return await program.methods
+    .initPlayer()
+    .accounts({
+      player: provider.wallet.publicKey,
+      playerState,
+      systemProgram: anchor.web3.SystemProgram.programId,
+    })
+    .rpc();
+};
 
 export const airdrop = async (pubKey: PublicKey, amount = 1000000000) => {
-	const signature = await program.provider.connection.requestAirdrop(pubKey, amount);
-	await program.provider.connection.confirmTransaction(signature);
-}
+  const signature = await program.provider.connection.requestAirdrop(
+    pubKey,
+    amount
+  );
+  await program.provider.connection.confirmTransaction(signature);
+};
