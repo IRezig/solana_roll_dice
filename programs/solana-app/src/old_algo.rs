@@ -53,23 +53,25 @@ pub fn play(
     player_state: &mut PlayerState,
     stats: &mut Stats,
 ) {
-    claim(current_round, last_round, player_state, stats);
-    go_next_round(current_round, last_round, stats);
-    reset_current_round_shares(current_round, player_state);
-    let win = get_random_number();
-    if win == 2 {
-        // WIN
-		player_state.payback += GAME_PRICE;
-        player_state.nb_shares += 1;
-        player_state.current_round_shares += 1;
-        player_state.last_won_round = current_round.id;
-        stats.total_winners += 1;
-    } else {
-        // LOSE
-        current_round.benefits += GAME_PRICE;
-    }
-	// TODO: NOTIFY FRONT WITH AN EVENT
+    
 }
+//     claim(current_round, last_round, player_state, stats);
+//     go_next_round(current_round, last_round, stats);
+//     reset_current_round_shares(current_round, player_state);
+//     let win = get_random_number();
+//     if win == 2 {
+//         // WIN
+// 		player_state.payback += GAME_PRICE;
+//         player_state.nb_shares += 1;
+//         player_state.current_round_shares += 1;
+//         player_state.last_won_round = current_round.id;
+//         stats.total_winners += 1;
+//     } else {
+//         // LOSE
+//         current_round.benefits += GAME_PRICE;
+//     }
+// 	// TODO: NOTIFY FRONT WITH AN EVENT
+// }
 
 fn claim(
     current_round: &mut CurrentRound,

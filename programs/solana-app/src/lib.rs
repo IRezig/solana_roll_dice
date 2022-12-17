@@ -28,7 +28,7 @@ pub mod solana_app {
         let player_state = &mut ctx.accounts.player_state;
         let stats = &mut ctx.accounts.stats;
 
-        old_algo::play(current_round, last_round, player_state, stats);
+        // old_algo::play(bet, current_round, last_round, player_state, stats);
         Ok(())
     }
 }

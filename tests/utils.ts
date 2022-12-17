@@ -63,6 +63,7 @@ export const play = async (pubKey: PublicKey) => {
     const lastRound = addressForSeed(LAST_ROUND_SEED)
     const stats = addressForSeed(STATS_SEED)
     const playerState = addressForSeed(PLAYER_STATE_SEED, pubKey)
+	
 	return await program.methods.play().accounts({
 		currentRound,
 		lastRound,
