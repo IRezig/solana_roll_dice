@@ -1,8 +1,10 @@
 mod init;
 mod logic;
+mod utils;
 
 pub use crate::init::*;
 pub use crate::logic::*;
+pub use crate::utils::*;
 
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::clock;
@@ -27,6 +29,11 @@ pub mod solana_app {
     pub fn play(ctx: Context<Play>, bet: u8) -> Result<()> {
         let clock = Clock::get()?;
         let current_timestamp = clock.unix_timestamp;
+		let result = utils::transfer(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
+		match result {
+			Ok(()) => (),
+			Err(error) => panic!("Could not pay entry fee: {:?}", error),
+		};
 
         let current_round = &mut ctx.accounts.current_round;
         let last_round = &mut ctx.accounts.last_round;

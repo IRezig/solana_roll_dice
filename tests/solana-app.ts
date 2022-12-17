@@ -11,7 +11,8 @@ import {
   play,
   GAME_PRICE,
   claim,
-  goNextRound
+  goNextRound,
+  getBalance
 } from './utils';
 
 describe('solana-app', () => {
@@ -59,5 +60,13 @@ describe('solana-app', () => {
   it('go next round', async () => {
     await goNextRound(Date.now());
     await goNextRound(Date.now());
+  });
+
+  it('check payment', async () => {
+    const balance = await getBalance(besma);
+    await play(besma, 2);
+
+    const newBalance = await getBalance(besma);
+    expect(newBalance).lt(balance - GAME_PRICE);
   });
 });

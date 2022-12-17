@@ -3,8 +3,8 @@ use anchor_lang::prelude::*;
 use anchor_lang::solana_program::clock;
 use super::*;
 
-const GAME_PRICE: u32 = 1000000;
-const ROUND_DURATION: i64 = 24 * 7 * 3600 * 1000;
+pub const GAME_PRICE: u32 = 1000000;
+pub const ROUND_DURATION: u32 = 24 * 7 * 3600 * 1000;
 
 #[derive(Accounts)]
 pub struct Play<'info> {

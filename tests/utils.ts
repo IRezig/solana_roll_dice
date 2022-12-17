@@ -42,6 +42,8 @@ export const getPlayerState = async (pubKey: PublicKey) =>
     addressForSeed(PLAYER_STATE_SEED, pubKey)
   );
 export const getWalletKey = () => provider.wallet.publicKey;
+export const getBalance = async (pubKey: PublicKey) =>
+  provider.connection.getBalance(pubKey);
 
 export const initAppState = async () => {
   const currentRound = addressForSeed(CURRENT_ROUND_SEED);
