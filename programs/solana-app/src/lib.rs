@@ -1,8 +1,10 @@
 mod init;
+mod old_algo;
 
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::system_program;
 pub use crate::init::*;
+pub use crate::old_algo::*;
 
 declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
 
@@ -20,6 +22,15 @@ pub mod solana_app {
         Ok(())
     }
     
+    pub fn play(ctx: Context<Play>) -> Result<()> {
+        let current_round = &mut ctx.accounts.current_round;
+        let last_round = &mut ctx.accounts.last_round;
+        let player_state = &mut ctx.accounts.player_state;
+        let stats = &mut ctx.accounts.stats;
+
+        old_algo::play(current_round, last_round, player_state, stats);
+        Ok(())
+    }
 }
 
 #[account]
@@ -36,7 +47,7 @@ pub struct PlayerState {
 
 #[account]
 pub struct CurrentRound {
-    pub id: u16,
+    pub id: u32,
     pub benefits: u32,
     pub bump: u8,
 }

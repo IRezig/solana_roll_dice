@@ -69,12 +69,12 @@ const DISCRIMINATOR_LENGTH: usize = 8;
 //const TIMESTAMP_LENGTH: usize = 8;
 
 impl PlayerState {
-    const LEN: usize = DISCRIMINATOR_LENGTH
+    pub const LEN: usize = DISCRIMINATOR_LENGTH
         + 4 // lastClaimedRound
         + 4 // totalClaimed
         + 4 // nbShares
         + 4 // currentRoundShares
-        + 4 // lastWinRound
+        + 4 // lastWonRound
         + 4 // payback
         + 4 // pendingRollId
         + 1 // bump
@@ -82,15 +82,15 @@ impl PlayerState {
 } 
 
 impl CurrentRound {
-    const LEN: usize = DISCRIMINATOR_LENGTH
-        + 2 // id
+    pub const LEN: usize = DISCRIMINATOR_LENGTH
         + 4 // id
+        + 4 // benefits
         + 1 // bump
         ;
 }
 
 impl LastRound {
-    const LEN: usize = DISCRIMINATOR_LENGTH
+    pub const LEN: usize = DISCRIMINATOR_LENGTH
         + 4 // winners
         + 4 // benefits
         + 4 // totalClaimed
@@ -100,7 +100,7 @@ impl LastRound {
 }
 
 impl Stats {
-    const LEN: usize = DISCRIMINATOR_LENGTH
+    pub const LEN: usize = DISCRIMINATOR_LENGTH
         + 4 // totalClaimed
         + 4 // totalWinners
         + 4 // totalRolls
