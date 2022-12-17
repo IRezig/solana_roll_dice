@@ -14,7 +14,6 @@ import {
 } from './utils';
 
 describe('solana-app', () => {
-
   const besma = getWalletKey();
   const ju = Keypair.generate();
 
@@ -50,7 +49,7 @@ describe('solana-app', () => {
   });
 
   it('claim', async () => {
-      await claim(besma);
+    await claim(besma);
 
     const player = await getPlayerState(besma);
     expect(player.payback).equal(0);
