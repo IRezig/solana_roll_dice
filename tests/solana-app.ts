@@ -44,7 +44,7 @@ describe("solana-app", () => {
 
     await play(besma);
 
-	const current = await getCurrentRound()
-	expect(current.benefits).equal(GAME_PRICE)
+    const current = await getCurrentRound();
+    expect(current.benefits).equal(GAME_PRICE);
   });
 });

@@ -3,7 +3,7 @@ import { Program } from "@project-serum/anchor";
 import { SolanaApp } from "../target/types/solana_app";
 import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 
-export const GAME_PRICE = 0.001 * LAMPORTS_PER_SOL
+export const GAME_PRICE = 0.001 * LAMPORTS_PER_SOL;
 
 /**
  * Seeds
