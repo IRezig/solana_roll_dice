@@ -77,7 +77,7 @@ export const play = async (pubKey: PublicKey) => {
   const playerState = addressForSeed(PLAYER_STATE_SEED, pubKey);
 
   return await program.methods
-    .play()
+    .play(3)
     .accounts({
       currentRound,
       lastRound,

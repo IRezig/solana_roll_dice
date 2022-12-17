@@ -7,33 +7,16 @@ const GAME_PRICE: u32 = 1000000;
 
 #[derive(Accounts)]
 pub struct Play<'info> {
-    #[account(
-        mut,
-        seeds = [b"current_round".as_ref()],
-        bump,
-    )]
+    #[account(mut)]
     pub current_round: Account<'info, CurrentRound>,
 
-    #[account(
-        mut,
-        seeds = [b"last_round".as_ref()],
-        bump,
-    )]
+    #[account(mut)]
     pub last_round: Account<'info, LastRound>,
 
-    #[account(
-        mut,
-        seeds = [b"stats".as_ref()],
-        bump,
-    )]
+    #[account(mut)]
     pub stats: Account<'info, Stats>,
 
-    #[account(
-        mut,
-		payer = player,
-        seeds = [b"player_state".as_ref(), player.key().as_ref()],
-        bump,
-    )]
+    #[account(mut)]
     pub player_state: Account<'info, PlayerState>,
 
     #[account(mut)]
@@ -52,7 +35,7 @@ pub fn play(ctx: Context<Play>, bet: u8) {
 }
 
 fn _play(
-	bet: u8,
+	_bet: u8,
     current_round: &mut CurrentRound,
     last_round: &mut LastRound,
     player_state: &mut PlayerState,
