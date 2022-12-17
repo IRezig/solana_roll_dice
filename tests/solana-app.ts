@@ -10,6 +10,7 @@ import {
   getStats,
   play,
   GAME_PRICE,
+  claim,
 } from "./utils";
 
 describe("solana-app", () => {
@@ -42,9 +43,9 @@ describe("solana-app", () => {
   });
 
   it("play win", async () => {
-    await play(besma, 4);
+    await claim(besma);
    
     const player = await getPlayerState(besma);
-    expect(player.payback).equal(GAME_PRICE);
+    expect(player.payback).equal(0);
   });
 });

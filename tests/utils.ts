@@ -91,6 +91,25 @@ export const play = async (pubKey: PublicKey, bet: number) => {
     .rpc();
 };
 
+export const claim = async (pubKey: PublicKey) => {
+  const currentRound = addressForSeed(CURRENT_ROUND_SEED);
+  const lastRound = addressForSeed(LAST_ROUND_SEED);
+  const playerState = addressForSeed(PLAYER_STATE_SEED, pubKey);
+  const stats = addressForSeed(STATS_SEED);
+
+  return await program.methods
+    .claim()
+    .accounts({
+      currentRound,
+      lastRound,
+      playerState,
+      stats,
+      player: provider.wallet.publicKey,
+      systemProgram: anchor.web3.SystemProgram.programId,
+    })
+    .rpc();
+};
+
 export const airdrop = async (pubKey: PublicKey, amount = 1000000000) => {
   const signature = await program.provider.connection.requestAirdrop(
     pubKey,

@@ -24,7 +24,20 @@ pub mod solana_app {
     }
     
     pub fn play(ctx: Context<Play>, bet: u8) -> Result<()> {
-        logic::play(ctx, bet);
+        let current_round = &mut ctx.accounts.current_round;
+        let last_round = &mut ctx.accounts.last_round;
+        let player_state = &mut ctx.accounts.player_state;
+        let stats = &mut ctx.accounts.stats;
+        logic::play(bet, current_round, last_round, player_state, stats);
+        Ok(())
+    }
+
+    pub fn claim(ctx: Context<Claim>) -> Result<()> {
+        let current_round = &mut ctx.accounts.current_round;
+        let last_round = &mut ctx.accounts.last_round;
+        let player_state = &mut ctx.accounts.player_state;
+        let stats = &mut ctx.accounts.stats;
+        logic::claim(current_round, last_round, player_state, stats);
         Ok(())
     }
 }

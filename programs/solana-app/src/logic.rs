@@ -25,16 +25,27 @@ pub struct Play<'info> {
     pub system_program: Program<'info, System>,
 }
 
-pub fn play(ctx: Context<Play>, bet: u8) {
-	let current_round = &mut ctx.accounts.current_round;
-	let last_round = &mut ctx.accounts.last_round;
-	let player_state = &mut ctx.accounts.player_state;
-	let stats = &mut ctx.accounts.stats;
+#[derive(Accounts)]
+pub struct Claim<'info> {
+    #[account(mut)]
+    pub current_round: Account<'info, CurrentRound>,
 
-	_play(bet, current_round, last_round, player_state, stats);
+    #[account(mut)]
+    pub last_round: Account<'info, LastRound>,
+
+    #[account(mut)]
+    pub stats: Account<'info, Stats>,
+
+    #[account(mut)]
+    pub player_state: Account<'info, PlayerState>,
+
+    #[account(mut)]
+    pub player: Signer<'info>,
+    #[account(address = system_program::ID)]
+    pub system_program: Program<'info, System>,
 }
 
-fn _play(
+pub fn play(
 	bet: u8,
     current_round: &mut CurrentRound,
     last_round: &mut LastRound,
@@ -59,7 +70,7 @@ fn _play(
 	// TODO: NOTIFY FRONT WITH AN EVENT
 }
 
-fn claim(
+pub fn claim(
     current_round: &mut CurrentRound,
     last_round: &mut LastRound,
     player_state: &mut PlayerState,
