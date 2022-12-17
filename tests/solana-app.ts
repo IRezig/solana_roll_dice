@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { Keypair, PublicKey } from '@solana/web3.js';
+import { Keypair } from '@solana/web3.js';
 import {
   getCurrentRound,
   getPlayerState,
@@ -48,7 +48,7 @@ describe('solana-app', () => {
     expect(player.payback).equal(GAME_PRICE);
   });
 
-  it("claim", async () => {
+  it('claim', async () => {
     await claim(besma);
 
     const player = await getPlayerState(besma);
