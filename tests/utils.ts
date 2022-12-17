@@ -72,14 +72,14 @@ export const initPlayer = async (pubKey: PublicKey) => {
     .rpc();
 };
 
-export const play = async (pubKey: PublicKey) => {
+export const play = async (pubKey: PublicKey, bet: number) => {
   const currentRound = addressForSeed(CURRENT_ROUND_SEED);
   const lastRound = addressForSeed(LAST_ROUND_SEED);
   const stats = addressForSeed(STATS_SEED);
   const playerState = addressForSeed(PLAYER_STATE_SEED, pubKey);
 
   return await program.methods
-    .play(3)
+    .play(bet)
     .accounts({
       currentRound,
       lastRound,

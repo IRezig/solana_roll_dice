@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 use super::*;
 
 const GAME_PRICE: u32 = 1000000;
-//const ROUND_DURATION: u32 = 24 * 7 * 3600 * 1000;
+const ROUND_DURATION: u32 = 24 * 7 * 3600 * 1000;
 
 #[derive(Accounts)]
 pub struct Play<'info> {
@@ -35,7 +35,7 @@ pub fn play(ctx: Context<Play>, bet: u8) {
 }
 
 fn _play(
-	_bet: u8,
+	bet: u8,
     current_round: &mut CurrentRound,
     last_round: &mut LastRound,
     player_state: &mut PlayerState,
@@ -45,7 +45,7 @@ fn _play(
     go_next_round(current_round, last_round, stats);
     reset_current_round_shares(current_round, player_state);
     let win = get_random_number();
-    if win == 2 {
+    if win == bet {
         // WIN
 		player_state.payback += GAME_PRICE;
         player_state.nb_shares += 1;
@@ -85,7 +85,12 @@ fn go_next_round(
 ) {
 	// TODO: RETRIEVE CURRENT DATE
     let now = 1000000;
-    if now > 0 && stats.total_winners > 0 {
+
+    if now + ROUND_DURATION > last_round.timestamp {
+        return;
+    }
+
+    if stats.total_winners > 0 {
         let last_unclaimed_benefits: u32 = last_round.benefits - last_round.total_claimed;
         last_round.benefits = last_unclaimed_benefits + current_round.benefits;
         last_round.winners = stats.total_winners;
@@ -118,9 +123,9 @@ fn get_claimable_amount(
     if player_state.current_round_shares > 0 && player_state.last_won_round == current_round.id {
         shares -= player_state.current_round_shares;
     }
-    return last_round.benefits / last_round.winners * shares;
+    return last_round.benefits / last_round.winners * shares + player_state.payback;
 }
 
-fn get_random_number() -> u32 {
+fn get_random_number() -> u8 {
     return 4; // TODO RETRIEVE RANDOM NUMBER
 }
