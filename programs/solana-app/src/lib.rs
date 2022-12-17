@@ -5,6 +5,7 @@ pub use crate::init::*;
 pub use crate::logic::*;
 
 use anchor_lang::prelude::*;
+use anchor_lang::solana_program::clock;
 use anchor_lang::solana_program::system_program;
 
 declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
@@ -24,11 +25,14 @@ pub mod solana_app {
     }
     
     pub fn play(ctx: Context<Play>, bet: u8) -> Result<()> {
+        let clock = Clock::get()?;
+        let current_timestamp = clock.unix_timestamp;
+
         let current_round = &mut ctx.accounts.current_round;
         let last_round = &mut ctx.accounts.last_round;
         let player_state = &mut ctx.accounts.player_state;
         let stats = &mut ctx.accounts.stats;
-        logic::play(bet, current_round, last_round, player_state, stats);
+        logic::play(bet, current_round, last_round, player_state, stats, current_timestamp);
         Ok(())
     }
 
@@ -66,7 +70,7 @@ pub struct LastRound {
     pub winners: u32,
     pub benefits: u32,
     pub total_claimed: u32,
-    pub timestamp: u32,
+    pub timestamp: i64,
     pub bump: u8,
 }
 

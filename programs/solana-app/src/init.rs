@@ -94,7 +94,7 @@ impl LastRound {
         + 4 // winners
         + 4 // benefits
         + 4 // totalClaimed
-        + 4 // timestamp
+        + 8 // timestamp
         + 1 // bump
         ;
 }

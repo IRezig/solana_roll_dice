@@ -1,10 +1,10 @@
 
 use anchor_lang::prelude::*;
-use anchor_lang::{prelude::*, solana_program::clock};
+use anchor_lang::solana_program::clock;
 use super::*;
 
 const GAME_PRICE: u32 = 1000000;
-const ROUND_DURATION: u32 = 24 * 7 * 3600 * 1000;
+const ROUND_DURATION: i64 = 24 * 7 * 3600 * 1000;
 
 #[derive(Accounts)]
 pub struct Play<'info> {
@@ -52,9 +52,10 @@ pub fn play(
     last_round: &mut LastRound,
     player_state: &mut PlayerState,
     stats: &mut Stats,
+    current_timestamp: i64,
 ) {
     claim(current_round, last_round, player_state, stats);
-    go_next_round(current_round, last_round, stats);
+    go_next_round(current_round, last_round, stats, current_timestamp);
     reset_current_round_shares(current_round, player_state);
     let win = get_random_number();
     if win == bet {
@@ -93,13 +94,10 @@ pub fn claim(
 fn go_next_round(
     current_round: &mut CurrentRound, 
     last_round: &mut LastRound, 
-    stats: &mut Stats
+    stats: &mut Stats,
+    now: i64,
 ) {
-	// TODO: RETRIEVE CURRENT DATE
-    let now = 1000000; 
-    now_ts();
-
-    if now + ROUND_DURATION > last_round.timestamp {
+    if now > last_round.timestamp + ROUND_DURATION {
         return;
     }
 
@@ -143,6 +141,3 @@ fn get_random_number() -> u8 {
     return 4; // TODO RETRIEVE RANDOM NUMBER
 }
 
-pub fn now_ts() -> Result<u64> {
-    Ok(clock::Clock::get()?.unix_timestamp.try_into().unwrap())
-}
