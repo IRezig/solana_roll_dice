@@ -1,10 +1,11 @@
 mod init;
-mod old_algo;
+mod logic;
+
+pub use crate::init::*;
+pub use crate::logic::*;
 
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::system_program;
-pub use crate::init::*;
-pub use crate::old_algo::*;
 
 declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
 
@@ -22,13 +23,8 @@ pub mod solana_app {
         Ok(())
     }
     
-    pub fn play(ctx: Context<Play>) -> Result<()> {
-        let current_round = &mut ctx.accounts.current_round;
-        let last_round = &mut ctx.accounts.last_round;
-        let player_state = &mut ctx.accounts.player_state;
-        let stats = &mut ctx.accounts.stats;
-
-        // old_algo::play(bet, current_round, last_round, player_state, stats);
+    pub fn play(ctx: Context<Play>, bet: u8) -> Result<()> {
+        logic::play(ctx, bet);
         Ok(())
     }
 }

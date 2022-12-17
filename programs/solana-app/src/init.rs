@@ -1,16 +1,6 @@
 use anchor_lang::prelude::*;
 use super::*;
 
-pub fn init_player(ctx: Context<InitializePlayer>) {
-    let player_state = &mut ctx.accounts.player_state;
-    player_state.bump = *ctx.bumps.get("player_state").unwrap();
-}
-
-pub fn init_app_state(ctx: Context<InitializeAppState>) {
-    let current_round = &mut ctx.accounts.current_round;
-    current_round.id = 1;
-}
-
 #[derive(Accounts)]
 pub struct InitializePlayer<'info> {
     #[account(
@@ -62,6 +52,16 @@ pub struct InitializeAppState<'info> {
     #[account(address = system_program::ID)]
     pub system_program: Program<'info, System>,
 
+}
+
+pub fn init_player(ctx: Context<InitializePlayer>) {
+    let player_state = &mut ctx.accounts.player_state;
+    player_state.bump = *ctx.bumps.get("player_state").unwrap();
+}
+
+pub fn init_app_state(ctx: Context<InitializeAppState>) {
+    let current_round = &mut ctx.accounts.current_round;
+    current_round.id = 1;
 }
 
 const DISCRIMINATOR_LENGTH: usize = 8;
