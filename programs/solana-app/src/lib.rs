@@ -53,7 +53,14 @@ pub mod solana_app {
         let last_round = &mut ctx.accounts.last_round;
         let player_state = &mut ctx.accounts.player_state;
         let stats = &mut ctx.accounts.stats;
-        logic::claim(current_round, last_round, player_state, stats);
+        let claimable: u32 = logic::claim(current_round, last_round, player_state, stats);
+		if claimable > 0 {
+			/*let result = utils::withdraw(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
+			match result {
+				Ok(()) => (),
+				Err(error) => panic!("Could not pay entry fee: {:?}", error),
+			};*/
+		}
         Ok(())
     }
 

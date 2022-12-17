@@ -78,10 +78,10 @@ pub fn claim(
     last_round: &mut LastRound,
     player_state: &mut PlayerState,
     stats: &mut Stats,
-) {
+) -> u32 {
     let claimable = get_claimable_amount(current_round, last_round, player_state, stats);
     if claimable <= 0 {
-        return;
+        return 0;
     }
 	// TODO: TRANSFER FUNDS
 	if claimable > player_state.payback {
@@ -90,6 +90,7 @@ pub fn claim(
 		player_state.last_claimed_round = current_round.id;
 	}
 	player_state.payback = 0;
+	return claimable;
 }
 
 #[derive(Accounts)]
