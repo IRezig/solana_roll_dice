@@ -91,7 +91,24 @@ pub fn claim(
 	player_state.payback = 0;
 }
 
-fn go_next_round(
+#[derive(Accounts)]
+pub struct GoNextRound<'info> {
+    #[account(mut)]
+    pub current_round: Account<'info, CurrentRound>,
+
+    #[account(mut)]
+    pub last_round: Account<'info, LastRound>,
+
+    #[account(mut)]
+    pub stats: Account<'info, Stats>,
+
+    #[account(mut)]
+    pub player: Signer<'info>,
+    #[account(address = system_program::ID)]
+    pub system_program: Program<'info, System>,
+}
+
+pub fn go_next_round(
     current_round: &mut CurrentRound, 
     last_round: &mut LastRound, 
     stats: &mut Stats,

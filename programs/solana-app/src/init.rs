@@ -59,9 +59,13 @@ pub fn init_player(ctx: Context<InitializePlayer>) {
     player_state.bump = *ctx.bumps.get("player_state").unwrap();
 }
 
-pub fn init_app_state(ctx: Context<InitializeAppState>) {
+pub fn init_app_state(ctx: Context<InitializeAppState>)-> Result<()> {
     let current_round = &mut ctx.accounts.current_round;
     current_round.id = 1;
+    let clock = Clock::get()?;
+    let last_round = &mut ctx.accounts.last_round;
+    last_round.timestamp = clock.unix_timestamp;
+    Ok(())
 }
 
 const DISCRIMINATOR_LENGTH: usize = 8;

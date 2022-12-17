@@ -10,7 +10,8 @@ import {
   getStats,
   play,
   GAME_PRICE,
-  claim
+  claim,
+  goNextRound
 } from './utils';
 
 describe('solana-app', () => {
@@ -53,5 +54,10 @@ describe('solana-app', () => {
 
     const player = await getPlayerState(besma);
     expect(player.payback).equal(0);
+  });
+
+  it('go next round', async () => {
+    await goNextRound(Date.now());
+    await goNextRound(Date.now());
   });
 });

@@ -44,6 +44,15 @@ pub mod solana_app {
         logic::claim(current_round, last_round, player_state, stats);
         Ok(())
     }
+
+    pub fn go_next_round(ctx: Context<GoNextRound>, now: i64) -> Result<()> {
+        let current_round = &mut ctx.accounts.current_round;
+        let last_round = &mut ctx.accounts.last_round;
+        let stats = &mut ctx.accounts.stats;
+
+        logic::go_next_round(current_round, last_round, stats, now);
+        Ok(())
+    }
 }
 
 #[account]
