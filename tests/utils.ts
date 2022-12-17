@@ -26,7 +26,7 @@ anchor.setProvider(provider);
 export const addressForSeed = (seed: string, pubKey?: PublicKey) => {
   const seeds = [anchor.utils.bytes.utf8.encode(seed)];
   if (pubKey) {
- 	   seeds.push(pubKey.toBuffer());
+    seeds.push(pubKey.toBuffer());
   }
   const [pda, _] = PublicKey.findProgramAddressSync(seeds, program.programId);
   return pda;
