@@ -1,23 +1,21 @@
 import { expect } from 'chai';
-import { Keypair } from '@solana/web3.js';
 import {
-  getCurrentRound,
-  getPlayerState,
-  getWalletKey,
-  initAppState,
-  initPlayer,
-  getLastRound,
-  getStats,
-  play,
   GAME_PRICE,
   claim,
   getBalance,
-  getValueForKey
+  getCurrentRound,
+  getLastRound,
+  getPlayerState,
+  getStats,
+  getWalletKey,
+  initAppState,
+  initPlayer,
+  play
 } from './utils';
 
 describe('solana-app', () => {
   const besma = getWalletKey();
-  const ju = Keypair.generate();
+  //const ju = Keypair.generate();
 
   it('init accounts', async () => {
     await initAppState();
