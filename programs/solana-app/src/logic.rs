@@ -47,7 +47,7 @@ fn _play(
     let win = get_random_number();
     if win == 2 {
         // WIN
-	player_state.payback += GAME_PRICE;
+		player_state.payback += GAME_PRICE;
         player_state.nb_shares += 1;
         player_state.current_round_shares += 1;
         player_state.last_won_round = current_round.id;
