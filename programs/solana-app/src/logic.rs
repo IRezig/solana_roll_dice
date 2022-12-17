@@ -9,7 +9,6 @@ const GAME_PRICE: u32 = 1000000;
 pub struct Play<'info> {
     #[account(
         mut,
-        space = CurrentRound::LEN, 
         seeds = [b"current_round".as_ref()],
         bump,
     )]
@@ -17,7 +16,6 @@ pub struct Play<'info> {
 
     #[account(
         mut,
-        space = LastRound::LEN, 
         seeds = [b"last_round".as_ref()],
         bump,
     )]
@@ -25,7 +23,6 @@ pub struct Play<'info> {
 
     #[account(
         mut,
-        space = Stats::LEN, 
         seeds = [b"stats".as_ref()],
         bump,
     )]
@@ -34,7 +31,6 @@ pub struct Play<'info> {
     #[account(
         mut,
 		payer = player,
-        space = PlayerState::LEN, 
         seeds = [b"player_state".as_ref(), player.key().as_ref()],
         bump,
     )]
