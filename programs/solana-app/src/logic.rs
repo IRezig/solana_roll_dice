@@ -1,5 +1,6 @@
 
 use anchor_lang::prelude::*;
+use anchor_lang::{prelude::*, solana_program::clock};
 use super::*;
 
 const GAME_PRICE: u32 = 1000000;
@@ -95,7 +96,8 @@ fn go_next_round(
     stats: &mut Stats
 ) {
 	// TODO: RETRIEVE CURRENT DATE
-    let now = 1000000;
+    let now = 1000000; 
+    now_ts();
 
     if now + ROUND_DURATION > last_round.timestamp {
         return;
@@ -139,4 +141,8 @@ fn get_claimable_amount(
 
 fn get_random_number() -> u8 {
     return 4; // TODO RETRIEVE RANDOM NUMBER
+}
+
+pub fn now_ts() -> Result<u64> {
+    Ok(clock::Clock::get()?.unix_timestamp.try_into().unwrap())
 }

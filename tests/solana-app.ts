@@ -41,7 +41,14 @@ describe('solana-app', () => {
     expect(current.benefits).equal(GAME_PRICE);
   });
 
-  it('play win', async () => {
+  it('play win ', async () => {
+    await play(besma, 4);
+
+    const player = await getPlayerState(besma);
+    expect(player.payback).equal(GAME_PRICE);
+  });
+
+  it("claim", async () => {
     await claim(besma);
 
     const player = await getPlayerState(besma);
