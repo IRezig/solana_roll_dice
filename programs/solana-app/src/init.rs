@@ -3,13 +3,12 @@ use super::*;
 
 pub fn init_player(ctx: Context<InitializePlayer>) {
     let player_state = &mut ctx.accounts.player_state;
-    player_state.bet = 0;
     player_state.bump = *ctx.bumps.get("player_state").unwrap();
 }
 
 pub fn init_app_state(ctx: Context<InitializeAppState>) {
     let current_round = &mut ctx.accounts.current_round;
-    current_round.id = 2;
+    current_round.id = 1;
 }
 
 #[derive(Accounts)]
@@ -40,6 +39,24 @@ pub struct InitializeAppState<'info> {
     )]
     pub current_round: Account<'info, CurrentRound>,
 
+    #[account(
+        init,
+        payer = player, 
+        space = LastRound::LEN, 
+        seeds = [b"last_round".as_ref()],
+        bump,
+    )]
+    pub last_round: Account<'info, LastRound>,
+
+    #[account(
+        init,
+        payer = player, 
+        space = Stats::LEN, 
+        seeds = [b"stats".as_ref()],
+        bump,
+    )]
+    pub stats: Account<'info, Stats>,
+
     #[account(mut)]
     pub player: Signer<'info>,
     #[account(address = system_program::ID)]
@@ -53,7 +70,13 @@ const DISCRIMINATOR_LENGTH: usize = 8;
 
 impl PlayerState {
     const LEN: usize = DISCRIMINATOR_LENGTH
-        + 2 // bet
+        + 4 // lastClaimedRound
+        + 4 // totalClaimed
+        + 4 // nbShares
+        + 4 // currentRoundShares
+        + 4 // lastWinRound
+        + 4 // payback
+        + 4 // pendingRollId
         + 1 // bump
         ;
 } 
@@ -61,6 +84,26 @@ impl PlayerState {
 impl CurrentRound {
     const LEN: usize = DISCRIMINATOR_LENGTH
         + 2 // id
+        + 4 // id
+        + 1 // bump
+        ;
+}
+
+impl LastRound {
+    const LEN: usize = DISCRIMINATOR_LENGTH
+        + 4 // winners
+        + 4 // benefits
+        + 4 // totalClaimed
+        + 4 // timestamp
+        + 1 // bump
+        ;
+}
+
+impl Stats {
+    const LEN: usize = DISCRIMINATOR_LENGTH
+        + 4 // totalClaimed
+        + 4 // totalWinners
+        + 4 // totalRolls
         + 1 // bump
         ;
 }

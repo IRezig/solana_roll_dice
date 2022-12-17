@@ -19,16 +19,41 @@ pub mod solana_app {
         init::init_player(ctx);
         Ok(())
     }
+    
 }
 
 #[account]
 pub struct PlayerState {
-    pub bet: u16,
+    pub last_claimed_round: u32,
+    pub total_claimed: u32,
+    pub nb_shares: u32,
+    pub current_round_shares: u32,
+    pub last_won_round: u32,
+    pub payback: u32,
+    pub pending_roll_id: u32,
     pub bump: u8,
 }
 
 #[account]
 pub struct CurrentRound {
     pub id: u16,
+    pub benefits: u32,
+    pub bump: u8,
+}
+
+#[account]
+pub struct LastRound {
+    pub winners: u32,
+    pub benefits: u32,
+    pub total_claimed: u32,
+    pub timestamp: u32,
+    pub bump: u8,
+}
+
+#[account]
+pub struct Stats {
+    pub total_claimed: u32,
+    pub total_winners: u32,
+    pub total_rolls: u32,
     pub bump: u8,
 }

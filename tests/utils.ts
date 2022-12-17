@@ -7,6 +7,8 @@ import { PublicKey } from '@solana/web3.js';
  * Seeds
  */
 const CURRENT_ROUND_SEED = "current_round"
+const LAST_ROUND_SEED = "last_round"
+const STATS_SEED = "stats"
 const PLAYER_STATE_SEED = "player_state"
 
 /**
@@ -28,17 +30,25 @@ export const addressForSeed = (seed: string, pubKey?: PublicKey) => {
 	return pda
 }
 export const getCurrentRound = async () => await program.account.currentRound.fetch(addressForSeed(CURRENT_ROUND_SEED))
+export const getLastRound = async () => await program.account.lastRound.fetch(addressForSeed(LAST_ROUND_SEED))
+export const getStats = async () => await program.account.stats.fetch(addressForSeed(STATS_SEED))
 export const getPlayerState = async (pubKey: PublicKey) => await program.account.playerState.fetch(addressForSeed(PLAYER_STATE_SEED, pubKey))
 export const getWalletKey = () => provider.wallet.publicKey
 
 export const initAppState = async () => {
     const currentRound = addressForSeed(CURRENT_ROUND_SEED)
+    const lastRound = addressForSeed(LAST_ROUND_SEED)
+    const stats = addressForSeed(STATS_SEED)
+
 	return await program.methods.initAppState().accounts({
 		player: provider.wallet.publicKey,
 		currentRound,
+		lastRound,
+		stats,
 		systemProgram: anchor.web3.SystemProgram.programId,
 	}).rpc()
 }
+
 export const initPlayer = async (pubKey: PublicKey) => {
     const playerState = addressForSeed(PLAYER_STATE_SEED, pubKey)
 	return await program.methods.initPlayer().accounts({
