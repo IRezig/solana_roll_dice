@@ -123,29 +123,3 @@ export const claim = async (pubKey: PublicKey) => {
     })
     .rpc();
 };
-
-export const goNextRound = async (now: number) => {
-  const currentRound = addressForSeed(CURRENT_ROUND_SEED);
-  const lastRound = addressForSeed(LAST_ROUND_SEED);
-  const stats = addressForSeed(STATS_SEED);
-  const currentTime = new anchor.BN(now);
-
-  return await program.methods
-    .goNextRound(currentTime)
-    .accounts({
-      currentRound,
-      lastRound,
-      stats,
-      player: provider.wallet.publicKey,
-      systemProgram: anchor.web3.SystemProgram.programId
-    })
-    .rpc();
-};
-
-export const airdrop = async (pubKey: PublicKey, amount = 1000000000) => {
-  const signature = await program.provider.connection.requestAirdrop(
-    pubKey,
-    amount
-  );
-  await program.provider.connection.confirmTransaction(signature);
-};

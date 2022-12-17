@@ -11,7 +11,6 @@ import {
   play,
   GAME_PRICE,
   claim,
-  goNextRound,
   getBalance,
   getValueForKey
 } from './utils';
@@ -59,8 +58,9 @@ describe('solana-app', () => {
   });
 
   it('go next round', async () => {
-    await goNextRound(Date.now());
-    await goNextRound(Date.now());
+    play(besma, 2);
+    const current = await getCurrentRound();
+    expect(current.id).equal(current.id);
   });
 
   it('check payment', async () => {
