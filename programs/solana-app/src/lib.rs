@@ -16,13 +16,11 @@ pub mod solana_app {
     use super::*;
 
     pub fn init_app_state(ctx: Context<InitializeAppState>) -> Result<()> {
-        init::init_app_state(ctx);
-        Ok(())
+        init::init_app_state(ctx)
     }
 
     pub fn init_player(ctx: Context<InitializePlayer>) -> Result<()> {
-        init::init_player(ctx);
-        Ok(())
+		Ok(init::init_player(ctx))
     }
     
     pub fn play(ctx: Context<Play>, bet: u8) -> Result<()> {
