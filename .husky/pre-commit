@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx prettier --write "**/*.{scss,css,js,ts,json}" && npx eslint .
+npx --no-install lint-staged
