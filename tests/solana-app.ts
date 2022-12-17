@@ -1,5 +1,13 @@
 import { expect } from "chai";
-import { getCurrentRound, getPlayerState, getWalletKey, initAppState, initPlayer, getLastRound, getStats  } from "./utils";
+import {
+  getCurrentRound,
+  getPlayerState,
+  getWalletKey,
+  initAppState,
+  initPlayer,
+  getLastRound,
+  getStats,
+} from "./utils";
 
 describe("solana-app", () => {
   const besma = getWalletKey();
