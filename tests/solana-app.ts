@@ -9,6 +9,7 @@ import {
   getLastRound,
   getStats,
   play,
+  GAME_PRICE,
 } from "./utils";
 
 describe("solana-app", () => {
@@ -42,5 +43,8 @@ describe("solana-app", () => {
     await initPlayer(besma);
 
     await play(besma);
+
+	const current = await getCurrentRound()
+	expect(current.benefits).equal(GAME_PRICE)
   });
 });
