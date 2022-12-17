@@ -1,17 +1,17 @@
-import * as anchor from "@project-serum/anchor";
-import { Program } from "@project-serum/anchor";
-import { SolanaApp } from "../target/types/solana_app";
-import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import * as anchor from '@project-serum/anchor';
+import { Program } from '@project-serum/anchor';
+import { SolanaApp } from '../target/types/solana_app';
+import { PublicKey, LAMPORTS_PER_SOL } from '@solana/web3.js';
 
 export const GAME_PRICE = 0.001 * LAMPORTS_PER_SOL;
 
 /**
  * Seeds
  */
-const CURRENT_ROUND_SEED = "current_round";
-const LAST_ROUND_SEED = "last_round";
-const STATS_SEED = "stats";
-const PLAYER_STATE_SEED = "player_state";
+const CURRENT_ROUND_SEED = 'current_round';
+const LAST_ROUND_SEED = 'last_round';
+const STATS_SEED = 'stats';
+const PLAYER_STATE_SEED = 'player_state';
 
 /**
  * Basic setup
@@ -55,7 +55,7 @@ export const initAppState = async () => {
       currentRound,
       lastRound,
       stats,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      systemProgram: anchor.web3.SystemProgram.programId
     })
     .rpc();
 };
@@ -67,7 +67,7 @@ export const initPlayer = async (pubKey: PublicKey) => {
     .accounts({
       player: provider.wallet.publicKey,
       playerState,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      systemProgram: anchor.web3.SystemProgram.programId
     })
     .rpc();
 };
@@ -86,7 +86,7 @@ export const play = async (pubKey: PublicKey, bet: number) => {
       stats,
       playerState,
       player: provider.wallet.publicKey,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      systemProgram: anchor.web3.SystemProgram.programId
     })
     .rpc();
 };
@@ -105,7 +105,7 @@ export const claim = async (pubKey: PublicKey) => {
       playerState,
       stats,
       player: provider.wallet.publicKey,
-      systemProgram: anchor.web3.SystemProgram.programId,
+      systemProgram: anchor.web3.SystemProgram.programId
     })
     .rpc();
 };

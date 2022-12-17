@@ -1,5 +1,5 @@
-import { expect } from "chai";
-import { Keypair, PublicKey } from "@solana/web3.js";
+import { expect } from 'chai';
+import { Keypair, PublicKey } from '@solana/web3.js';
 import {
   getCurrentRound,
   getPlayerState,
@@ -10,14 +10,14 @@ import {
   getStats,
   play,
   GAME_PRICE,
-  claim,
-} from "./utils";
+  claim
+} from './utils';
 
-describe("solana-app", () => {
+describe('solana-app', () => {
   const besma = getWalletKey();
   const ju = Keypair.generate();
 
-  it("init accounts", async () => {
+  it('init accounts', async () => {
     await initAppState();
     await initPlayer(besma);
 
@@ -32,19 +32,18 @@ describe("solana-app", () => {
 
     const player = await getPlayerState(besma);
     expect(player.lastClaimedRound).equal(0);
-  })
+  });
 
-	it("play lose ", async () => {
+  it('play lose ', async () => {
     await play(besma, 2);
 
     const current = await getCurrentRound();
     expect(current.benefits).equal(GAME_PRICE);
-
   });
 
-  it("play win", async () => {
+  it('play win', async () => {
     await claim(besma);
-   
+
     const player = await getPlayerState(besma);
     expect(player.payback).equal(0);
   });
