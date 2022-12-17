@@ -25,13 +25,13 @@ describe("solana-app", () => {
     const current = await getCurrentRound();
     expect(current.benefits).equal(GAME_PRICE);
 
-	const last = await getLastRound();
-	expect(last.benefits).equal(0)
+    const last = await getLastRound();
+    expect(last.benefits).equal(0);
 
-	const stats = await getStats();
-	expect(stats.totalRolls).equal(0)
+    const stats = await getStats();
+    expect(stats.totalRolls).equal(0);
 
-	const player = await getPlayerState(besma);
-	expect(player.lastClaimedRound).equal(0)
+    const player = await getPlayerState(besma);
+    expect(player.lastClaimedRound).equal(0);
   });
 });
