@@ -9,7 +9,7 @@ pub use crate::utils::*;
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::system_program;
 
-declare_id!("AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK");
+declare_id!("8gRyXMnjEkN9YtHefq9ngkbdPrhnPSaytZTvCdfRKreW");
 
 #[program]
 pub mod solana_app {
@@ -47,13 +47,13 @@ pub mod solana_app {
         let player_state = &mut ctx.accounts.player_state;
         let stats = &mut ctx.accounts.stats;
         let claimable: u32 = logic::claim(current_round, last_round, player_state, stats);
-		if claimable > 0 {
-			let result = utils::withdraw(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
-			match result {
-				Ok(()) => (),
-				Err(error) => panic!("Could not pay entry fee: {:?}", error),
-			};
-		}
+		// if claimable > 0 {
+		// 	let result = utils::withdraw(&ctx.accounts.player, &ctx.accounts.stats, logic::GAME_PRICE.into());
+		// 	match result {
+		// 		Ok(()) => (),
+		// 		Err(error) => panic!("Could not pay entry fee: {:?}", error),
+		// 	};
+		// }
         Ok(())
     }
 }

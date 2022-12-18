@@ -3,10 +3,10 @@ seeds = false
 skip-lint = false
 
 [programs.localnet]
-solana_app = "AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK"
+solana_app = "8gRyXMnjEkN9YtHefq9ngkbdPrhnPSaytZTvCdfRKreW"
 
 [programs.devnet]
-solana_app = "AHpwncxAnUsYngmKQajpgrRjZP3Gz4ysZiLQqjWZoBWK"
+solana_app = "8gRyXMnjEkN9YtHefq9ngkbdPrhnPSaytZTvCdfRKreW"
 
 [registry]
 url = "https://api.apr.dev"
@@ -17,7 +17,5 @@ wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
-set-local="solana config set --url localhost"
-set-dev="solana config set --url devnet"
 deploy-dev="anchor deploy --provider.cluster devnet"
 extract-idl="mv ./target/idl/solana_app.json ../game1/RollTheDice-front/src/constants/SolanaIDL.json"
