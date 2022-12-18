@@ -5,7 +5,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
 import { expect } from 'chai';
 
 export const GAME_PRICE = 0.001 * LAMPORTS_PER_SOL;
-export const ROUND_DURATION = 10 * 1000;
+export const ROUND_DURATION = 3 * 1000;
 export const sleep = async (duration: number) =>
   new Promise((resolve) => setTimeout(resolve, duration));
 
