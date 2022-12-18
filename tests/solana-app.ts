@@ -1,16 +1,20 @@
 import { expect } from 'chai';
 import {
   GAME_PRICE,
+  ROUND_DURATION,
   claim,
+  expectValueForKey,
   getBalance,
   getCurrentRound,
   getLastRound,
   getPlayerState,
   getStats,
+  getValueForKey,
   getWalletKey,
   initAppState,
   initPlayer,
-  play
+  play,
+  sleep
 } from './utils';
 
 describe('solana-app', () => {
@@ -21,44 +25,51 @@ describe('solana-app', () => {
     await initAppState();
     await initPlayer(besma);
 
-    const current = await getCurrentRound();
-    expect(current.benefits).equal(0);
-
-    const last = await getLastRound();
-    expect(last.benefits).equal(0);
-
-    const stats = await getStats();
-    expect(stats.totalRolls).equal(0);
-
-    const player = await getPlayerState(besma);
-    expect(player.lastClaimedRound).equal(0);
+    await expectValueForKey(getCurrentRound(), 'benefits', 0);
+    await expectValueForKey(getLastRound(), 'benefits', 0);
+    await expectValueForKey(getStats(), 'totalRolls', 0);
+    await expectValueForKey(getPlayerState(besma), 'lastClaimedRound', 0);
   });
 
   it('play lose ', async () => {
+    const prev = await getValueForKey(getCurrentRound(), 'benefits');
     await play(besma, 2);
-
-    const current = await getCurrentRound();
-    expect(current.benefits).equal(GAME_PRICE);
+    await expectValueForKey(getCurrentRound(), 'benefits', prev + GAME_PRICE);
   });
 
   it('play win ', async () => {
+    const prev = await getValueForKey(getPlayerState(besma), 'payback');
     await play(besma, 4);
-
-    const player = await getPlayerState(besma);
-    expect(player.payback).equal(GAME_PRICE);
+    await expectValueForKey(
+      getPlayerState(besma),
+      'payback',
+      prev + GAME_PRICE
+    );
   });
 
-  it('claim', async () => {
+  it('claim win payback', async () => {
     await claim(besma);
-
-    const player = await getPlayerState(besma);
-    expect(player.payback).equal(0);
+    await expectValueForKey(getPlayerState(besma), 'payback', 0);
   });
 
   it('go next round', async () => {
-    play(besma, 2);
-    const current = await getCurrentRound();
-    expect(current.id).equal(current.id);
+    const prev = await getValueForKey(getCurrentRound(), 'id');
+    play(besma, 4);
+    await sleep(ROUND_DURATION);
+    await expectValueForKey(getCurrentRound(), 'id', prev + 1);
+  });
+
+  it('claim', async () => {
+    const prev = await getValueForKey(
+      getPlayerState(besma),
+      'lastClaimedRound'
+    );
+    await claim(besma);
+    await expectValueForKey(
+      getPlayerState(besma),
+      'lastClaimedRound',
+      prev + 1
+    );
   });
 
   it('check payment', async () => {

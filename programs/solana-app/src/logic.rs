@@ -3,7 +3,7 @@ use anchor_lang::prelude::*;
 use super::*;
 
 pub const GAME_PRICE: u32 = 1000000;
-pub const ROUND_DURATION: i64 = 24 * 7 * 3600 * 1000;
+pub const ROUND_DURATION: i64 = 3;
 
 #[derive(Accounts)]
 pub struct Play<'info> {
@@ -116,7 +116,7 @@ pub fn go_next_round(
     stats: &mut Stats,
     now: i64,
 ) {
-    if now > last_round.timestamp + ROUND_DURATION {
+    if now < last_round.timestamp {
         return;
     }
 
